@@ -1,0 +1,14 @@
+{
+	"name":"Arduino Sensordata Graph in C3.js",
+	"description": "Arduino をつかってシリアル通信の値をグラフにするWebアプリ in C3.js(D3.jsラップライブラリ)",
+	"version":"1",
+	"manifest_version":2,
+	"app":{
+		"background":{
+			"scripts":["js/background.js"]
+		}
+	},
+	"permissions":[
+	    "serial"
+	]
+}
