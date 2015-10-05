@@ -24,8 +24,14 @@ var chart = c3.generate({
     	columns:[
     	    
     	    ['x',[]],
-    	    ['serial',[]]
+
+    	    ['hum1',[]],
+    	    ['hum2',[]],
+    	    ['tempDHT',[]],
+    	    ['humDHT',[]],
+    	    ['IRtemp',[]]
         ],
+
         type: 'line'
     },
     axis:{
@@ -35,6 +41,10 @@ var chart = c3.generate({
     			format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
     			outer: false
     		},
+    		padding:{
+                left:20,
+                right:500
+            },
     		//height: 20
     	},
     	y:{
@@ -158,51 +168,74 @@ var onReceiveCallback = function(info){
 		console.log(str);
 		//シリアル通信はちゃんと数字列でデータが飛んで来るとは限らない（空白とか、数字のみとかの可能性がある）
 		for(var i = 0; i < str.length;i++){
-			if(str[i] == ','){
+			//if(str[i] == ','){
+			if(str[i] == '-'){
 				var str2 = dataBuf.join('');
 
 				//--グラフに値を追加する部分---
 				//var time = getTimeHMS();
                 var time = new Date();
+                var values = str2.split(',');
 
-				var value = parseInt(str2);
+				//var value = parseInt(str2);
 
-                //timeArray.push(getTimeHMS());
-                timeArray.push(time);
-                //console.log(time;
-	            
-	            graphArray.push(value);
-	            //console.log(graphArray);
+
 
 	            //もとのやりかた
 	            //var columns = [['serial']], j;
 
-	            //必要な構造→  [['x',,,,,,],['serial',値0,値1,値2,値3,,,]]
+	            //必要な構造→  [['x',,,,,,],['serial',値0,値1,値2,値3,,,],[],[]
 	            var timeSerial = ['x'];
-	            var columnSerial = ['serial'];
+	            //var columnSerial = ['serial'];
+	            var columnHum1 = ['hum1'];
+	            var columnHum2 = ['hum2'];
+	            var columntempDHT = ['tempDHT'];
+	            var columnhumDHT = ['humDHT'];
+	            var columnIRTemp = ['IRtemp'];
 	            
+
 	            var columns = [];
 	            //ここではcolumnsの中身に、先頭に'serial'を置いた配列columnをpushする
 
 
-				if(graphArray.length >= 100){
+				if(graphArray.length >= 20){
 				    chart.flow({
 					    columns: [
 					        ['x',time],
-					        ['serial',value]
-					        
+					        //['serial',value]
+					        ['hum1',values[0]],
+					        ['hum2',values[1]],
+					        ['tempDHT',values[2]],
+					        ['humDHT',values[3]],
+					        ['IRtemp',values[4]]					        
 					    ]
 				    });
 
 			    }else{
+			    	//timeArray.push(getTimeHMS());
+			    	timeArray.push(time);
+                    //console.log(time;
+	            
+                    //graphArray.push(value);
+	                //console.log(graphArray);
+	                graphArray.push(values);
+
+
 			    	//もとのやりかた
 			    	//columns.forEach(function (c) {
 	            	//   for (j = 0; j < graphArray.length-[j]);
 	            	//   }
 	                //});
 
+	                //graphArray.forEach(function(c){
+	                //	columnSerial.push(c);
+	                //});
 	                graphArray.forEach(function(c){
-	                	columnSerial.push(c);
+	                	columnHum1.push(c[0]);
+	                	columnHum2.push(c[1]);
+	                	columntempDHT.push(c[2]);
+	                	columnhumDHT.push(c[3]);
+	                	columnIRTemp.push(c[4]);
 	                });
 
 	                timeArray.forEach(function(c){
@@ -211,8 +244,14 @@ var onReceiveCallback = function(info){
 	                //console.log(timeArray);
 
 	                columns.push(timeSerial);
-	                columns.push(columnSerial);
+	                //columns.push(columnSerial);
 	                //console.log(columns);
+
+	                columns.push(columnHum1);
+	                columns.push(columnHum2);
+	                columns.push(columntempDHT);
+	                columns.push(columnhumDHT);
+	                columns.push(columnIRTemp);
 
 			    	chart.load({
 					    columns: columns   
