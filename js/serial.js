@@ -126,7 +126,7 @@ var chart = c3.generate({
 
 	var onConnectCallback = function(connectionInfo){
 		connectionId = connectionInfo.connectionId;
-	}
+	};
 
 	function openPort(){
 		selectedPort = select.childNodes[select.selectedIndex].value;
@@ -146,7 +146,7 @@ var chart = c3.generate({
 		}else{
 			console.log('error');
 		}
-	}
+	};
 
 
 	function closePort(){
@@ -275,7 +275,7 @@ var chart = c3.generate({
 
 		var onReceiveErrorCallback = function(info){
 			console.log('onReceiveErrorCallback');
-		}
+		};
 		chrome.serial.onReceiveError.addListener(onReceiveErrorCallback);
 
 
