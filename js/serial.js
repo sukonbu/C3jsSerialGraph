@@ -28,8 +28,47 @@ var chart = c3.generate({
 
 		['hum1',[]],
 		['hum2',[]],
+		//['tempDHT',[]],
+		//['humDHT',[]],
+		//['IRtemp',[]]
+		],
+
+		type: 'line'
+	},
+	axis:{
+		x:{
+			type:'timeseries',
+			tick: {
+				format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
+				outer: false
+			},
+			padding:{
+				left:20,
+				right:500
+			},
+    		//height: 20
+    	},
+    	y:{
+    		max: 95,
+    		min: 5
+    	},
+
+    }
+
+});
+
+var tempChart = c3.generate({
+	bindto: '#tempChart',
+	data: {
+		x: 'x',
+		columns:[
+
+		['x',[]],
+
+		//['hum1',[]],
+		//['hum2',[]],
 		['tempDHT',[]],
-		['humDHT',[]],
+		//['humDHT',[]],
 		['IRtemp',[]]
 		],
 
@@ -56,6 +95,7 @@ var chart = c3.generate({
     }
 
 });
+
 
 function convertArrayBufferToString(buf){
 	var bufView = new Uint8Array(buf);
@@ -155,6 +195,7 @@ var onReceiveCallback = function(info){
 	            
 
 	            var columns = [];
+	            var tempColumns = [];
 	            //ここではcolumnsの中身に、先頭に'serial'を置いた配列columnをpushする
 
 	            if(graphArray.length >= 20){
@@ -164,8 +205,19 @@ var onReceiveCallback = function(info){
 
 	            		['hum1',values[0]],
 	            		['hum2',values[1]],
+	            		//['tempDHT',values[2]],
+	            		//['humDHT',values[3]],
+	            		//['IRtemp',values[4]]					        
+	            		]
+	            	});
+	            	tempChart.flow({
+	            		columns: [
+	            		['x',time],
+
+	            		//['hum1',values[0]],
+	            		//['hum2',values[1]],
 	            		['tempDHT',values[2]],
-	            		['humDHT',values[3]],
+	            		//['humDHT',values[3]],
 	            		['IRtemp',values[4]]					        
 	            		]
 	            	});
@@ -191,12 +243,19 @@ var onReceiveCallback = function(info){
 
 	            	columns.push(columnHum1);
 	            	columns.push(columnHum2);
-	            	columns.push(columntempDHT);
-	            	columns.push(columnhumDHT);
-	            	columns.push(columnIRTemp);
+	            	//columns.push(columntempDHT);
+	            	//columns.push(columnhumDHT);
+	            	//columns.push(columnIRTemp);
+	            	tempColumns.push(timeSerial);
+	            	tempColumns.push(columntempDHT);
+	            	tempColumns.push(columnIRTemp);
 
 	            	chart.load({
 	            		columns: columns   
+	            	});
+
+	            	tempChart.load({
+	            		columns: tempColumns  
 	            	});
 	            }
 				//----------------------
