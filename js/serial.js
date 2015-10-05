@@ -23,7 +23,7 @@ var chart = c3.generate({
 	data: {
 		x: 'x',
 		columns:[
-		
+
 		['x',[]],
 
 		['hum1',[]],
@@ -137,12 +137,10 @@ var onReceiveCallback = function(info){
 		console.log(str);
 		//シリアル通信はちゃんと数字列でデータが飛んで来るとは限らない（空白とか、数字のみとかの可能性がある）
 		for(var i = 0; i < str.length;i++){
-			//if(str[i] == ','){
-				if(str[i] == '-'){
-					var str2 = dataBuf.join('');
+			if(str[i] == '-'){
+				var str2 = dataBuf.join('');
 
 				//--グラフに値を追加する部分---
-				//var time = getTimeHMS();
 				var time = new Date();
 				var values = str2.split(',');
 
@@ -202,7 +200,6 @@ var onReceiveCallback = function(info){
 	            	});
 	            }
 				//----------------------
-
 
 				dataBuf = [];
 			}else{
