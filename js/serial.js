@@ -8,6 +8,7 @@ var CORRECTION = 0.5;
 
 var dataBuf  =[];
 var stringBuf = [];
+
 var arrayReceived = [];
 
 var graphArray = [];
@@ -18,33 +19,33 @@ var timeArray =[];
 var nowDay;
 
 var chart = c3.generate({
-    bindto: '#chart',
-    data: {
-    	x: 'x',
-    	columns:[
-    	    
-    	    ['x',[]],
+	bindto: '#chart',
+	data: {
+		x: 'x',
+		columns:[
+		
+		['x',[]],
 
-    	    ['hum1',[]],
-    	    ['hum2',[]],
-    	    ['tempDHT',[]],
-    	    ['humDHT',[]],
-    	    ['IRtemp',[]]
-        ],
+		['hum1',[]],
+		['hum2',[]],
+		['tempDHT',[]],
+		['humDHT',[]],
+		['IRtemp',[]]
+		],
 
-        type: 'line'
-    },
-    axis:{
-    	x:{
-    		type:'timeseries',
-    		tick: {
-    			format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
-    			outer: false
-    		},
-    		padding:{
-                left:20,
-                right:500
-            },
+		type: 'line'
+	},
+	axis:{
+		x:{
+			type:'timeseries',
+			tick: {
+				format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
+				outer: false
+			},
+			padding:{
+				left:20,
+				right:500
+			},
     		//height: 20
     	},
     	y:{
@@ -72,11 +73,11 @@ function init(){
 		devices.forEach(function(port){	
 
 		//select menuに追加
-			var option = document.createElement('option');
-			option.value = port.path;
-			option.text = port.displayName ? port.displayName : port.path;
-			select.appendChild(option);
-		});
+		var option = document.createElement('option');
+		option.value = port.path;
+		option.text = port.displayName ? port.displayName : port.path;
+		select.appendChild(option);
+	});
 	});
 	
 }
@@ -117,15 +118,13 @@ function getTimeHMS(){
 	//めんどいのでコピペ（ありがたや）
 	//http://yut.hatenablog.com/entry/20111015/1318633937
 	var d = new Date();
-	//var year  = d.getFullYear();
-	//var month = d.getMonth() + 1;
-	//var day   = d.getDate();
+
 	var hour  = ( d.getHours()   < 10 ) ? '0' + d.getHours()   : d.getHours();
 	var min   = ( d.getMinutes() < 10 ) ? '0' + d.getMinutes() : d.getMinutes();
 	var sec   = ( d.getSeconds() < 10 ) ? '0' + d.getSeconds() : d.getSeconds();
 	var msec  = ( d.getMilliseconds() < 10 ) ? '0' + d.getMilliseconds() : d.getMilliseconds();
 	//print( year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec );
-    var timeString = hour +':' + min + ':' + sec + ':' + msec;
+	var timeString = hour +':' + min + ':' + sec + ':' + msec;
 
 	return timeString;
 }
@@ -139,20 +138,13 @@ var onReceiveCallback = function(info){
 		//シリアル通信はちゃんと数字列でデータが飛んで来るとは限らない（空白とか、数字のみとかの可能性がある）
 		for(var i = 0; i < str.length;i++){
 			//if(str[i] == ','){
-			if(str[i] == '-'){
-				var str2 = dataBuf.join('');
+				if(str[i] == '-'){
+					var str2 = dataBuf.join('');
 
 				//--グラフに値を追加する部分---
 				//var time = getTimeHMS();
-                var time = new Date();
-                var values = str2.split(',');
-
-				//var value = parseInt(str2);
-
-
-
-	            //もとのやりかた
-	            //var columns = [['serial']], j;
+				var time = new Date();
+				var values = str2.split(',');
 
 	            //必要な構造→  [['x',,,,,,],['serial',値0,値1,値2,値3,,,],[],[]
 	            var timeSerial = ['x'];
@@ -167,66 +159,48 @@ var onReceiveCallback = function(info){
 	            var columns = [];
 	            //ここではcolumnsの中身に、先頭に'serial'を置いた配列columnをpushする
 
+	            if(graphArray.length >= 20){
+	            	chart.flow({
+	            		columns: [
+	            		['x',time],
 
-				if(graphArray.length >= 20){
-				    chart.flow({
-					    columns: [
-					        ['x',time],
-					        //['serial',value]
-					        ['hum1',values[0]],
-					        ['hum2',values[1]],
-					        ['tempDHT',values[2]],
-					        ['humDHT',values[3]],
-					        ['IRtemp',values[4]]					        
-					    ]
-				    });
+	            		['hum1',values[0]],
+	            		['hum2',values[1]],
+	            		['tempDHT',values[2]],
+	            		['humDHT',values[3]],
+	            		['IRtemp',values[4]]					        
+	            		]
+	            	});
 
-			    }else{
-			    	//timeArray.push(getTimeHMS());
-			    	timeArray.push(time);
-                    //console.log(time;
-	            
-                    //graphArray.push(value);
-	                //console.log(graphArray);
-	                graphArray.push(values);
+	            }else{
+	            	timeArray.push(time);
 
+	            	graphArray.push(values);
 
-			    	//もとのやりかた
-			    	//columns.forEach(function (c) {
-	            	//   for (j = 0; j < graphArray.length-[j]);
-	            	//   }
-	                //});
+	            	graphArray.forEach(function(c){
+	            		columnHum1.push(c[0]);
+	            		columnHum2.push(c[1]);
+	            		columntempDHT.push(c[2]);
+	            		columnhumDHT.push(c[3]);
+	            		columnIRTemp.push(c[4]);
+	            	});
 
-	                //graphArray.forEach(function(c){
-	                //	columnSerial.push(c);
-	                //});
-	                graphArray.forEach(function(c){
-	                	columnHum1.push(c[0]);
-	                	columnHum2.push(c[1]);
-	                	columntempDHT.push(c[2]);
-	                	columnhumDHT.push(c[3]);
-	                	columnIRTemp.push(c[4]);
-	                });
+	            	timeArray.forEach(function(c){
+	            		timeSerial.push(c);
+	            	});
 
-	                timeArray.forEach(function(c){
-	                	timeSerial.push(c);
-	                });
-	                //console.log(timeArray);
+	            	columns.push(timeSerial);
 
-	                columns.push(timeSerial);
-	                //columns.push(columnSerial);
-	                //console.log(columns);
+	            	columns.push(columnHum1);
+	            	columns.push(columnHum2);
+	            	columns.push(columntempDHT);
+	            	columns.push(columnhumDHT);
+	            	columns.push(columnIRTemp);
 
-	                columns.push(columnHum1);
-	                columns.push(columnHum2);
-	                columns.push(columntempDHT);
-	                columns.push(columnhumDHT);
-	                columns.push(columnIRTemp);
-
-			    	chart.load({
-					    columns: columns   
-				    });
-			    }
+	            	chart.load({
+	            		columns: columns   
+	            	});
+	            }
 				//----------------------
 
 
