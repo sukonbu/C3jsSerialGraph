@@ -11,6 +11,8 @@ var stringBuf = [];
 
 var arrayReceived = [];
 
+
+
 var graphArray = [];
 
 var column = [];
@@ -174,7 +176,7 @@ var onReceiveCallback = function(info){
 	if(info.connectionId == connectionId && info.data){
 		var str = convertArrayBufferToString(info.data);
 
-		console.log(str);
+		//console.log(str);
 		//シリアル通信はちゃんと数字列でデータが飛んで来るとは限らない（空白とか、数字のみとかの可能性がある）
 		for(var i = 0; i < str.length;i++){
 			if(str[i] == '-'){
