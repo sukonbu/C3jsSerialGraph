@@ -56,36 +56,6 @@ var chart = c3.generate({
 
 });
 
-
-
-d3.select('#reload').on('click', function () {
-    // 更新用のデータ生成
-    var columns = [['serial']], i;
-    columns.forEach(function (c) {
-        for (i = 0; i < 10; i++) {
-            c.push(Math.random() * 100);
-        }
-    });
-    // 更新
-    chart.load({
-        columns: columns
-    });
-});
-
-d3.select('#add').on('click', function () {
-  // 追加データの生成
-  var columns = [['serial']], i;
-  columns.forEach(function (c) {
-    for (i = 0; i < 3; i++) {
-      c.push(Math.random() * 100);
-    }
-  });
-  // データを追加し、同じ長さ分左へ流す
-  chart.flow({
-    columns: columns
-  });
-});
-
 function convertArrayBufferToString(buf){
 	var bufView = new Uint8Array(buf);
 	var encodedString = String.fromCharCode.apply(null,bufView);
