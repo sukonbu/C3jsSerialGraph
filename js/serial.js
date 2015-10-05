@@ -59,224 +59,216 @@ var chart = c3.generate({
 
 	});
 
-	var tempChart = c3.generate({
-			bindto: '#tempChart',
-			data: {
-				x: 'x',
-				columns:[
+var tempChart = c3.generate({
+		bindto: '#tempChart',
+		data: {
+			x: 'x',
+			columns:[
 
-					['x',[]],
+				['x',[]],
 
-					//['hum1',[]],
-					//['hum2',[]],
-					['tempDHT',[]],
-					//['humDHT',[]],
-					['IRtemp',[]]
-				],
+				//['hum1',[]],
+				//['hum2',[]],
+				['tempDHT',[]],
+				//['humDHT',[]],
+				['IRtemp',[]]
+			],
 
-				type: 'line'
+			type: 'line'
+		},
+		axis:{
+			x:{
+				type:'timeseries',
+				tick: {
+					format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
+					outer: false
+				},
+				padding:{
+					left:20,
+					right:500
+				},
+				//height: 20
 			},
-			axis:{
-				x:{
-					type:'timeseries',
-					tick: {
-						format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
-						outer: false
-					},
-					padding:{
-						left:20,
-						right:500
-					},
-					//height: 20
-				},
-				y:{
-					max: 95,
-					min: 5
-				},
+			y:{
+				max: 95,
+				min: 5
+			},
 
-			}
+		}
 
+});
+
+
+function convertArrayBufferToString(buf){
+	var bufView = new Uint8Array(buf);
+	var encodedString = String.fromCharCode.apply(null,bufView);
+	return decodeURIComponent(escape(encodedString));
+}
+
+function init(){
+	select = document.getElementById('ports');
+
+	document.getElementById('open').addEventListener('click',openPort);
+	document.getElementById('close').addEventListener('click',closePort);
+
+	chrome.serial.getDevices(function(devices){
+			devices.forEach(function(port){	
+
+					//select menuに追加
+					var option = document.createElement('option');
+					option.value = port.path;
+					option.text = port.displayName ? port.displayName : port.path;
+					select.appendChild(option);
+			});
 	});
 
+}
 
-	function convertArrayBufferToString(buf){
-		var bufView = new Uint8Array(buf);
-		var encodedString = String.fromCharCode.apply(null,bufView);
-		return decodeURIComponent(escape(encodedString));
-	}
+var onConnectCallback = function(connectionInfo){
+	connectionId = connectionInfo.connectionId;
+};
 
-	function init(){
-		select = document.getElementById('ports');
-
-		document.getElementById('open').addEventListener('click',openPort);
-		document.getElementById('close').addEventListener('click',closePort);
-
-		chrome.serial.getDevices(function(devices){
-				devices.forEach(function(port){	
-
-						//select menuに追加
-						var option = document.createElement('option');
-						option.value = port.path;
-						option.text = port.displayName ? port.displayName : port.path;
-						select.appendChild(option);
-				});
-		});
-
-	}
-
-	var onConnectCallback = function(connectionInfo){
-		connectionId = connectionInfo.connectionId;
+function openPort(){
+	selectedPort = select.childNodes[select.selectedIndex].value;
+	var baudRate = parseInt(document.getElementById('baud').value);
+	var options = {
+		"bitrate":baudRate,
+		"receiveTimeout":1000
 	};
 
-	function openPort(){
-		selectedPort = select.childNodes[select.selectedIndex].value;
-		var baudRate = parseInt(document.getElementById('baud').value);
-		var options = {
-			"bitrate":baudRate,
-			"receiveTimeout":1000
-		};
+	chrome.serial.connect(selectedPort,options,onConnectCallback);
 
-		chrome.serial.connect(selectedPort,options,onConnectCallback);
+}
 
+var onDisconnectionCallback = function(result){
+	if(result){
+		console.log('disconeccted');
+	}else{
+		console.log('error');
 	}
-
-	var onDisconnectionCallback = function(result){
-		if(result){
-			console.log('disconeccted');
-		}else{
-			console.log('error');
-		}
-	};
+};
 
 
-	function closePort(){
+function closePort(){
 
-		var disconnect = chrome.serial.disconnect(connectionId,onDisconnectionCallback);
-		console.log(stringBuf);
-	}
-
-
-	function getTimeHMS(){
-		//めんどいのでコピペ（ありがたや）
-		//http://yut.hatenablog.com/entry/20111015/1318633937
-		var d = new Date();
-
-		var hour  = ( d.getHours()   < 10 ) ? '0' + d.getHours()   : d.getHours();
-		var min   = ( d.getMinutes() < 10 ) ? '0' + d.getMinutes() : d.getMinutes();
-		var sec   = ( d.getSeconds() < 10 ) ? '0' + d.getSeconds() : d.getSeconds();
-		var msec  = ( d.getMilliseconds() < 10 ) ? '0' + d.getMilliseconds() : d.getMilliseconds();
-		//print( year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec );
-		var timeString = hour +':' + min + ':' + sec + ':' + msec;
-
-		return timeString;
-	}
+	var disconnect = chrome.serial.disconnect(connectionId,onDisconnectionCallback);
+	console.log(stringBuf);
+}
 
 
-	var onReceiveCallback = function(info){
-		if(info.connectionId == connectionId && info.data){
-			var str = convertArrayBufferToString(info.data);
+function getTimeHMS(){
+	//めんどいのでコピペ（ありがたや）
+	//http://yut.hatenablog.com/entry/20111015/1318633937
+	var d = new Date();
 
-			//console.log(str);
-			//シリアル通信はちゃんと数字列でデータが飛んで来るとは限らない（空白とか、数字のみとかの可能性がある）
-			for(var i = 0; i < str.length;i++){
-				if(str[i] == '-'){
-					var str2 = dataBuf.join('');
+	var hour  = ( d.getHours()   < 10 ) ? '0' + d.getHours()   : d.getHours();
+	var min   = ( d.getMinutes() < 10 ) ? '0' + d.getMinutes() : d.getMinutes();
+	var sec   = ( d.getSeconds() < 10 ) ? '0' + d.getSeconds() : d.getSeconds();
+	var msec  = ( d.getMilliseconds() < 10 ) ? '0' + d.getMilliseconds() : d.getMilliseconds();
+	//print( year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec );
+	var timeString = hour +':' + min + ':' + sec + ':' + msec;
 
-					//--グラフに値を追加する部分---
-					var time = new Date();
-					var values = str2.split(',');
-
-					//必要な構造→  [['x',,,,,,],['serial',値0,値1,値2,値3,,,],[],[]
-					var timeSerial = ['x'];
-					//var columnSerial = ['serial'];
-					var columnHum1 = ['hum1'];
-					var columnHum2 = ['hum2'];
-					var columntempDHT = ['tempDHT'];
-					var columnhumDHT = ['humDHT'];
-					var columnIRTemp = ['IRtemp'];
+	return timeString;
+}
 
 
-					var columns = [];
-					var tempColumns = [];
-					//ここではcolumnsの中身に、先頭に'serial'を置いた配列columnをpushする
+var onReceiveCallback = function(info){
+	if(info.connectionId == connectionId && info.data){
+		var str = convertArrayBufferToString(info.data);
 
-					if(graphArray.length >= 20){
-						chart.flow({
-								columns: [
-									['x',time],
+		//console.log(str);
+		//シリアル通信はちゃんと数字列でデータが飛んで来るとは限らない（空白とか、数字のみとかの可能性がある）
+		for(var i = 0; i < str.length; i++){
+			if(str[i] == '-'){
+				var str2 = dataBuf.join('');
 
-									['hum1',values[0]],
-									['hum2',values[1]],
-									//['tempDHT',values[2]],
-									//['humDHT',values[3]],
-									//['IRtemp',values[4]]					        
-								]
-							});
-							tempChart.flow({
-									columns: [
-										['x',time],
+				//--グラフに値を追加する部分---
+				var time = new Date();
+				var values = str2.split(',');
 
-										//['hum1',values[0]],
-										//['hum2',values[1]],
-										['tempDHT',values[2]],
-										//['humDHT',values[3]],
-										['IRtemp',values[4]]					        
-									]
-							});
+				//必要な構造→  [['x',,,,,,],['serial',値0,値1,値2,値3,,,],[],[]
+				var timeSerial = ['x'];
+				//var columnSerial = ['serial'];
+				var columnHum1 = ['hum1'];
+				var columnHum2 = ['hum2'];
+				var columntempDHT = ['tempDHT'];
+				var columnhumDHT = ['humDHT'];
+				var columnIRTemp = ['IRtemp'];
 
-						}else{
-							timeArray.push(time);
 
-							graphArray.push(values);
+				var columns = [];
+				var tempColumns = [];
+				//ここではcolumnsの中身に、先頭に'serial'を置いた配列columnをpushする
 
-							graphArray.forEach(function(c){
-									columnHum1.push(c[0]);
-									columnHum2.push(c[1]);
-									columntempDHT.push(c[2]);
-									columnhumDHT.push(c[3]);
-									columnIRTemp.push(c[4]);
-							});
+				if(graphArray.length >= 20){
+					chart.flow({
+							columns: [
+								['x',time],
+								['hum1',values[0]],
+								['hum2',values[1]],
+							]
+					});
+					tempChart.flow({
+							columns: [
+								['x',time],
+								['tempDHT',values[2]],
+								['IRtemp',values[4]]
+							]
+					});
 
-							timeArray.forEach(function(c){
-									timeSerial.push(c);
-							});
+				}else{
+					timeArray.push(time);
 
-							columns.push(timeSerial);
+					graphArray.push(values);
 
-							columns.push(columnHum1);
-							columns.push(columnHum2);
-							//columns.push(columntempDHT);
-							//columns.push(columnhumDHT);
-							//columns.push(columnIRTemp);
-							tempColumns.push(timeSerial);
-							tempColumns.push(columntempDHT);
-							tempColumns.push(columnIRTemp);
+					graphArray.forEach(function(c){
+							columnHum1.push(c[0]);
+							columnHum2.push(c[1]);
+							columntempDHT.push(c[2]);
+							columnhumDHT.push(c[3]);
+							columnIRTemp.push(c[4]);
+					});
 
-							chart.load({
-									columns: columns   
-							});
+					timeArray.forEach(function(c){
+							timeSerial.push(c);
+					});
 
-							tempChart.load({
-									columns: tempColumns  
-							});
-						}
-						//----------------------
+					columns.push(timeSerial);
 
-						dataBuf = [];
-					}else{
-						dataBuf.push(str[i]);
-					}
+					columns.push(columnHum1);
+					columns.push(columnHum2);
+					//columns.push(columntempDHT);
+					//columns.push(columnhumDHT);
+					//columns.push(columnIRTemp);
+					tempColumns.push(timeSerial);
+					tempColumns.push(columntempDHT);
+					tempColumns.push(columnIRTemp);
+
+					chart.load({
+							columns: columns   
+					});
+
+					tempChart.load({
+							columns: tempColumns  
+					});
 				}
+				//----------------------
+
+				dataBuf = [];
+			}else{
+				dataBuf.push(str[i]);
 			}
-		};
-		chrome.serial.onReceive.addListener(onReceiveCallback);
+		}
+	}
+};
+chrome.serial.onReceive.addListener(onReceiveCallback);
 
 
 
-		var onReceiveErrorCallback = function(info){
-			console.log('onReceiveErrorCallback');
-		};
-		chrome.serial.onReceiveError.addListener(onReceiveErrorCallback);
+var onReceiveErrorCallback = function(info){
+	console.log('onReceiveErrorCallback');
+};
+chrome.serial.onReceiveError.addListener(onReceiveErrorCallback);
 
 
-		window.onload = init;
+window.onload = init;
