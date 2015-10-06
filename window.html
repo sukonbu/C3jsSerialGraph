@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content = "text/html; charset=UTF-8">
-	<title>C3.js</title>
-	<!-- Load c3.css -->
-    <link href="lib/c3.min.css" rel="stylesheet" type="text/css">
-    <!-- Load d3.js and c3.js -->
-    <script src="lib/d3.min.js" charset="utf-8"></script>
-    <script src="lib/c3.min.js"></script>
-    
-    <script type="text/javascript" src="/lib/jquery-1.11.1.min.js"></script>
-    
-    
-</head>
-<body>
-    <select id = "ports"></select>
-    <input type="text" id="baud" value="9600" size="5"></input>
-    <input type="button" id="open" value="開始"></input>
-    <input type="button" id="close" value="終了"></input>
+	<head>
+		<meta http-equiv="Content-Type" content = "text/html; charset=UTF-8">
+		<title>C3.js</title>
+		<!-- Load c3.css -->
+		<link href="lib/c3.min.css" rel="stylesheet" type="text/css">
+		<!-- Load d3.js and c3.js -->
+		<script src="lib/d3.min.js" charset="utf-8"></script>
+		<script src="lib/c3.min.js"></script>
 
-	<div id="chart"></div>
-    <div id="tempChart"></div>
-	<script type="text/javascript" src="js/serial.js"></script>
-
-    <table id="chartValueTable" border="1">
-        <tr></tr>
-        <tr></tr>
-    </table>
+		<script type="text/javascript" src="/lib/jquery-1.11.1.min.js"></script>
 
 
-</body>
+	</head>
+	<body>
+		<select id = "ports"></select>
+		<input type="text" id="baud" value="9600" size="5"></input>
+		<input type="button" id="open" value="開始"></input>
+		<input type="button" id="close" value="終了"></input>
+
+		<div id="chart"></div>
+		<div id="tempChart"></div>
+		<script type="text/javascript" src="js/serial.js"></script>
+
+		<table id="chartValueTable" border="1">
+			<tr></tr>
+			<tr></tr>
+		</table>
+
+
+	</body>
 </html>
