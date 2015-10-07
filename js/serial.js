@@ -47,8 +47,8 @@
 						//height: 20
 					},
 					y:{
-						max: 40,
-						min: 20
+						max: 95,
+						min: 5
 					},
 
 				}
@@ -81,8 +81,8 @@
 					//height: 20
 				},
 				y:{
-					max: 95,
-					min: 5
+					max: 40,
+					min: 20
 				},
 
 			}
