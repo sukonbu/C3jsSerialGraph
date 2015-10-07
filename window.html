@@ -1,33 +1,65 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content = "text/html; charset=UTF-8">
-	<title>C3.js</title>
-	<!-- Load c3.css -->
-    <link href="lib/c3.min.css" rel="stylesheet" type="text/css">
-    <!-- Load d3.js and c3.js -->
-    <script src="lib/d3.min.js" charset="utf-8"></script>
-    <script src="lib/c3.min.js"></script>
-    
-    <script type="text/javascript" src="/lib/jquery-1.11.1.min.js"></script>
-    
-    
-</head>
-<body>
-    <select id = "ports"></select>
-    <input type="text" id="baud" value="9600" size="5"></input>
-    <input type="button" id="open" value="開始"></input>
-    <input type="button" id="close" value="終了"></input>
+	<head>
+		<meta http-equiv="Content-Type" content = "text/html; charset=UTF-8">
+		<title>C3.js</title>
+		<!-- Load respond.css -->
+		<link href="lib/respond/css/responsive.gs.12col.css" rel="stylesheet" type="text/css">
+		<!-- Load respond.js -->
+		<script src="lib/respond/js/respond.min.js" charset="utf-8"></script>
+		<!-- Load c3.css -->
+		<link href="lib/c3.min.css" rel="stylesheet" type="text/css">
+		<!-- Load d3.js and c3.js -->
+		<script src="lib/d3.min.js" charset="utf-8"></script>
+		<script src="lib/c3.min.js"></script>
 
-	<div id="chart"></div>
-    <div id="tempChart"></div>
+		<link href="window.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="/lib/jquery-1.11.1.min.js"></script>
+
+
+	</head>
+	<body>
+		<select id = "ports"></select>
+		<input type="text" id="baud" value="9600" size="5"></input>
+		<input type="button" id="open" value="開始"></input>
+		<input type="button" id="close" value="終了"></input>
+
+		<div class="row">
+			<div class="col span_8">
+				<div id="chart"></div>
+				<div id="tempChart"></div>
+			</div>
+			<div class="col span_4">
+				<div id="currentValues">
+					<div id="w_time" class="row datawrapper">
+						<div class="label col span_4">Time</div>
+						<div class="data col span_8"></div>
+					</div>
+					<div id="w_hum1" class="row datawrapper">
+						<div class="label col span_4">湿度[内側]</div>
+						<div class="data col span_7"></div>
+						<div class="unit col span_1">％</div>
+					</div>
+					<div id="w_hum2" class="row datawrapper">
+						<div class="label col span_4">湿度[外側]</div>
+						<div class="data col span_7"></div>
+						<div class="unit col span_1">％</div>
+					</div>
+					<div id="w_temp" class="row datawrapper">
+						<div class="label col span_4">気温[]</div>
+						<div class="data col span_7"></div>
+						<div class="unit col span_1">度</div>
+					</div>
+					<div id="w_irtemp" class="row datawrapper">
+						<div class="label col span_4">気温[IR]</div>
+						<div class="data col span_7"></div>
+						<div class="unit col span_1">度</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
 	<script type="text/javascript" src="js/serial.js"></script>
-
-    <table id="chartValueTable" border="1">
-        <tr></tr>
-        <tr></tr>
-    </table>
-
-
-</body>
 </html>
