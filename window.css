@@ -1,0 +1,23 @@
+.datawrapper {
+}
+
+.datawrapper > * {
+	font-size: 160%;
+	line-height: 200%;
+}
+
+.datawrapper > .label {
+	padding-left: 1em;
+}
+
+.datawrapper > .data {
+	text-align: right;
+}
+
+.datawrapper > .unit {
+}
+
+.danger {
+	color: #FFF;
+	background-color: #F00;
+}
