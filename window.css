@@ -21,3 +21,16 @@
 	color: #FFF;
 	background-color: #F00;
 }
+
+.dangerYellow{
+	background-color: #FF0;
+}
+
+.dangerOrange{
+	background-color: #F80;
+}
+
+.lowvalue{
+	color: #FFF;
+	background-color: #00F;
+}
