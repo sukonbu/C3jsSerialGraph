@@ -12,6 +12,7 @@
 
 .datawrapper > .data {
 	text-align: right;
+	font-size: 200%;
 }
 
 .datawrapper > .unit {
@@ -33,4 +34,12 @@
 .lowvalue{
 	color: #FFF;
 	background-color: #00F;
+}
+
+.dataCategory{
+	padding-top: 20px;
+}
+
+.wbgt{
+	padding-top: 120px;
 }

@@ -22,26 +22,26 @@
 	var nowDay;
 
 	var WBGT = [
-	    [15, 15, 16, 16, 17, 17, 18, 19, 19, 20, 20, 21, 21, 22, 23, 23, 24],
-	    [15, 16, 17, 17, 18, 18, 19, 19, 20, 21, 21, 22, 22, 23, 24, 24, 25],
-	    [16, 17, 17, 18, 19, 19, 20, 20, 21, 22, 22, 23, 23, 24, 25, 25, 26],
-	    [17, 18, 18, 19, 19, 20, 21, 21, 22, 22, 23, 24, 24, 25, 26, 26, 27],
-	    [18, 18, 19, 20, 20, 21, 22, 22, 23, 23, 24, 25, 25, 26, 27, 27, 28],
-	    [18, 19, 20, 20, 21, 22, 22, 23, 24, 24, 25, 26, 26, 27, 28, 28, 29],
-	    [19, 20, 21, 21, 22, 23, 23, 24, 25, 25, 26, 27, 27, 28, 29, 29, 30],
-	    [20, 21, 21, 22, 23, 23, 24, 25, 25, 26, 27, 28, 28, 29, 30, 30, 31],
-	    [21, 21, 22, 23, 24, 24, 25, 26, 26, 27, 28, 29, 29, 30, 31, 31, 32],
-	    [21, 22, 23, 24, 24, 25, 26, 27, 27, 28, 29, 29, 30, 31, 32, 32, 33],
-	    [22, 23, 24, 24, 25, 26, 27, 27, 28, 29, 30, 30, 31, 32, 33, 33, 34],
-	    [23, 24, 25, 25, 26, 27, 28, 28, 29, 30, 31, 31, 32, 33, 34, 34, 35],
-	    [24, 25, 25, 26, 27, 28, 28, 29, 30, 31, 32, 32, 33, 34, 35, 35, 36],
-	    [25, 25, 26, 27, 28, 29, 29, 30, 31, 32, 33, 33, 34, 35, 36, 37, 37],
-	    [25, 26, 27, 28, 29, 29, 30, 31, 32, 33, 33, 34, 35, 36, 37, 38, 38],
-	    [26, 27, 28, 29, 29, 30, 31, 32, 33, 34, 34, 35, 36, 37, 38, 39, 39],
-	    [27, 28, 29, 29, 30, 31, 32, 33, 34, 35, 35, 36, 37, 38, 39, 40, 41],
-	    [28, 28, 29, 30, 31, 32, 33, 34, 35, 35, 36, 37, 38, 39, 40, 41, 42],
-	    [28, 29, 30, 31, 32, 33, 34, 35, 35, 36, 37, 38, 39, 40, 41, 42, 43],
-	    [29, 30, 31, 32, 33, 34, 35, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44],
+	[15, 15, 16, 16, 17, 17, 18, 19, 19, 20, 20, 21, 21, 22, 23, 23, 24],
+	[15, 16, 17, 17, 18, 18, 19, 19, 20, 21, 21, 22, 22, 23, 24, 24, 25],
+	[16, 17, 17, 18, 19, 19, 20, 20, 21, 22, 22, 23, 23, 24, 25, 25, 26],
+	[17, 18, 18, 19, 19, 20, 21, 21, 22, 22, 23, 24, 24, 25, 26, 26, 27],
+	[18, 18, 19, 20, 20, 21, 22, 22, 23, 23, 24, 25, 25, 26, 27, 27, 28],
+	[18, 19, 20, 20, 21, 22, 22, 23, 24, 24, 25, 26, 26, 27, 28, 28, 29],
+	[19, 20, 21, 21, 22, 23, 23, 24, 25, 25, 26, 27, 27, 28, 29, 29, 30],
+	[20, 21, 21, 22, 23, 23, 24, 25, 25, 26, 27, 28, 28, 29, 30, 30, 31],
+	[21, 21, 22, 23, 24, 24, 25, 26, 26, 27, 28, 29, 29, 30, 31, 31, 32],
+	[21, 22, 23, 24, 24, 25, 26, 27, 27, 28, 29, 29, 30, 31, 32, 32, 33],
+	[22, 23, 24, 24, 25, 26, 27, 27, 28, 29, 30, 30, 31, 32, 33, 33, 34],
+	[23, 24, 25, 25, 26, 27, 28, 28, 29, 30, 31, 31, 32, 33, 34, 34, 35],
+	[24, 25, 25, 26, 27, 28, 28, 29, 30, 31, 32, 32, 33, 34, 35, 35, 36],
+	[25, 25, 26, 27, 28, 29, 29, 30, 31, 32, 33, 33, 34, 35, 36, 37, 37],
+	[25, 26, 27, 28, 29, 29, 30, 31, 32, 33, 33, 34, 35, 36, 37, 38, 38],
+	[26, 27, 28, 29, 29, 30, 31, 32, 33, 34, 34, 35, 36, 37, 38, 39, 39],
+	[27, 28, 29, 29, 30, 31, 32, 33, 34, 35, 35, 36, 37, 38, 39, 40, 41],
+	[28, 28, 29, 30, 31, 32, 33, 34, 35, 35, 36, 37, 38, 39, 40, 41, 42],
+	[28, 29, 30, 31, 32, 33, 34, 35, 35, 36, 37, 38, 39, 40, 41, 42, 43],
+	[29, 30, 31, 32, 33, 34, 35, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44],
 	];
 
 	function roundFive(humidityVal){
@@ -75,28 +75,28 @@
 
 
 	var chart = c3.generate({
-			bindto: '#chart',
-			data: {
-				x: 'x',
-				columns:[
-					['x',[]],
-					['hum1',[]],
-					['hum2',[]],
-				],
+		bindto: '#chart',
+		data: {
+			x: 'x',
+			columns:[
+			['x',[]],
+			['hum1',[]],
+			['hum2',[]],
+			],
 
-					type: 'line'
+			type: 'line'
+		},
+		axis:{
+			x:{
+				type:'timeseries',
+				tick: {
+					format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
+					outer: false
 				},
-				axis:{
-					x:{
-						type:'timeseries',
-						tick: {
-							format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
-							outer: false
-						},
-						padding:{
-							left:20,
-							right:500
-						},
+				padding:{
+					left:20,
+					right:500
+				},
 						//height: 20
 					},
 					y:{
@@ -106,31 +106,31 @@
 
 				}
 
-		});
+			});
 
 	var tempChart = c3.generate({
-			bindto: '#tempChart',
-			data: {
-				x: 'x',
-				columns:[
-					['x',[]],
-					['tempDHT',[]],
-					['IRtemp',[]]
-				],
+		bindto: '#tempChart',
+		data: {
+			x: 'x',
+			columns:[
+			['x',[]],
+			['tempDHT',[]],
+			['IRtemp',[]]
+			],
 
-				type: 'line'
-			},
-			axis:{
-				x:{
-					type:'timeseries',
-					tick: {
-						format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
-						outer: false
-					},
-					padding:{
-						left:20,
-						right:500
-					},
+			type: 'line'
+		},
+		axis:{
+			x:{
+				type:'timeseries',
+				tick: {
+					format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
+					outer: false
+				},
+				padding:{
+					left:20,
+					right:500
+				},
 					//height: 20
 				},
 				y:{
@@ -140,7 +140,7 @@
 
 			}
 
-	});
+		});
 
 
 	function convertArrayBufferToString(buf){
@@ -156,13 +156,13 @@
 		document.getElementById('close').addEventListener('click',closePort);
 
 		chrome.serial.getDevices(function(devices){
-				devices.forEach(function(port){	
+			devices.forEach(function(port){	
 						//select menuに追加
 						var option = document.createElement('option');
 						option.value = port.path;
 						option.text = port.displayName ? port.displayName : port.path;
 						select.appendChild(option);
-				});
+					});
 		});
 
 	}
@@ -233,32 +233,42 @@
 		document.getElementById('w_WBGTout').getElementsByClassName('data')[0].innerText = data.WBGTout;
 		document.getElementById('w_WBGTin').getElementsByClassName('data')[0].innerText = data.WBGTin;
 		
+			
+		document.getElementById('w_WBGTout').classList.remove('danger');
+		document.getElementById('w_WBGTout').classList.remove('dangerOrange');
+		document.getElementById('w_WBGTout').classList.remove('dangerYellow');
 		document.getElementById('w_WBGTout').classList.remove('lowvalue');
 		if(data.WBGTout > 31){
 			//red
-			document.getElementById('w_WBGTout').classList.remove('dangerYellow');
-			document.getElementById('w_WBGTout').classList.remove('dangerOrange');
 			document.getElementById('w_WBGTout').classList.add('danger');
 		}else if(data.WBGTout > 28){
 			//orange
-			document.getElementById('w_WBGTout').classList.remove('dangerYellow');
-			document.getElementById('w_WBGTout').classList.remove('danger');
 			document.getElementById('w_WBGTout').classList.add('dangerOrange');
 		}else if(data.WBGTout > 25){
 			//yellow
-			document.getElementById('w_WBGTout').classList.remove('danger');
-			document.getElementById('w_WBGTout').classList.remove('dangerOrange');
 			document.getElementById('w_WBGTout').classList.add('dangerYellow');
 		}else if(data.WBGTout > 15){
-			//white
-			document.getElementById('w_WBGTout').classList.remove('dangerYellow');
-			document.getElementById('w_WBGTout').classList.remove('dangerOrange');
-			document.getElementById('w_WBGTout').classList.remove('danger');
+			//white(normal)
 		}else{
-			document.getElementById('w_WBGTout').classList.remove('dangerYellow');
-			document.getElementById('w_WBGTout').classList.remove('dangerOrange');
-			document.getElementById('w_WBGTout').classList.remove('danger');
 			document.getElementById('w_WBGTout').classList.add('lowvalue');
+		}
+		document.getElementById('w_WBGTin').classList.remove('danger');
+		document.getElementById('w_WBGTin').classList.remove('dangerOrange');
+		document.getElementById('w_WBGTin').classList.remove('dangerYellow');
+		document.getElementById('w_WBGTin').classList.remove('lowvalue');
+		if(data.WBGTin > 31){
+			//red
+			document.getElementById('w_WBGTin').classList.add('danger');
+		}else if(data.WBGTin > 28){
+			//orange
+			document.getElementById('w_WBGTin').classList.add('dangerOrange');
+		}else if(data.WBGTin > 25){
+			//yellow
+			document.getElementById('w_WBGTin').classList.add('dangerYellow');
+		}else if(data.WBGTin > 15){
+			//white(normal)
+		}else{
+			document.getElementById('w_WBGTin').classList.add('lowvalue');
 		}
 
 
@@ -298,14 +308,14 @@
 
 
 					updateDisplay({
-							time: time,
-							hum1: values[0],
-							hum2: values[1],
-							temp: values[2],
-							humdht: values[3],
-							irtemp: values[4],
-							WBGTout: calcWBGT(values[1],values[2]),
-							WBGTin: calcWBGT(values[0],values[3])
+						time: time,
+						hum1: values[0],
+						hum2: values[1],
+						temp: values[2],
+						humdht: values[3],
+						irtemp: values[4],
+						WBGTout: calcWBGT(values[1],values[2]),
+						WBGTin: calcWBGT(values[0],values[3])
 
 					});
 
@@ -313,18 +323,18 @@
 
 					if(graphArray.length >= 20){
 						chart.flow({
-								columns: [
-									['x',time],
-									['hum1',values[0]],
-									['hum2',values[1]],
-								]
+							columns: [
+							['x',time],
+							['hum1',values[0]],
+							['hum2',values[1]],
+							]
 						});
 						tempChart.flow({
-								columns: [
-									['x',time],
-									['tempDHT',values[2]],
-									['IRtemp',values[4]]
-								]
+							columns: [
+							['x',time],
+							['tempDHT',values[2]],
+							['IRtemp',values[4]]
+							]
 						});
 
 					}else{
@@ -332,15 +342,15 @@
 
 						graphArray.push(values);
 						graphArray.forEach(function(c){
-								columnHum1.push(c[0]);
-								columnHum2.push(c[1]);
-								columntempDHT.push(c[2]);
-								columnhumDHT.push(c[3]);
-								columnIRTemp.push(c[4]);
+							columnHum1.push(c[0]);
+							columnHum2.push(c[1]);
+							columntempDHT.push(c[2]);
+							columnhumDHT.push(c[3]);
+							columnIRTemp.push(c[4]);
 						});
 
 						timeArray.forEach(function(c){
-								timeSerial.push(c);
+							timeSerial.push(c);
 						});
 
 						columns.push(timeSerial);
@@ -355,11 +365,11 @@
 						tempColumns.push(columnIRTemp);
 
 						chart.load({
-								columns: columns   
+							columns: columns   
 						});
 
 						tempChart.load({
-								columns: tempColumns  
+							columns: tempColumns  
 						});
 					}
 					//----------------------
