@@ -301,7 +301,7 @@
 			//white(normal)
 		}else{
 			document.getElementById('w_WBGTin').classList.add('lowvalue');
-			document.getElementById('w_WBGTin').getElementsByClassName('caution')[0].innerText = "低値";
+			document.getElementById('w_WBGTin').getElementsByClassName('caution')[0].innerText = "failed";
 		}
 
 
@@ -333,12 +333,10 @@
 					var tempColumns = [];
 					//ここではcolumnsの中身に、先頭に'serial'を置いた配列columnをpushする
 
-
 					//WBGT値の算出
 					
 					//console.log("そと："+calcWBGT(values[1],values[2]));
 					//console.log("なか："+calcWBGT(values[0],values[3]));
-
 
 					updateDisplay({
 						time: time,
@@ -348,11 +346,9 @@
 						humdht: values[3],
 						irtemp: values[4],
 						WBGTout: calcWBGT(values[1],values[2]),
-						WBGTin: calcWBGT(values[0],values[3])
-
+						WBGTin: calcWBGT(values[0],values[4])
 					});
 
-					
 
 					if(graphArray.length > 20){
 						chart.flow({
