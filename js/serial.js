@@ -89,6 +89,7 @@
 		axis:{
 			x:{
 				type:'timeseries',
+				label:'計測時刻(時:分：秒 ミリ秒)',
 				tick: {
 					format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
 					outer: false
@@ -98,15 +99,22 @@
 					right:500
 				},
 						//height: 20
-					},
-					y:{
-						max: 95,
-						min: 5
-					},
-
-				}
-
-			});
+			},
+			y:{
+				label:'湿度（％）',
+				max: 95,
+				min: 5
+			},
+		},
+		grid:{
+			x:{
+				show:true
+			},
+			y:{
+				show:true
+			}
+		}
+	});
 
 	var tempChart = c3.generate({
 		bindto: '#tempChart',
@@ -123,24 +131,34 @@
 		axis:{
 			x:{
 				type:'timeseries',
+				label:'計測時刻(時:分：秒 ミリ秒)',
 				tick: {
 					format: function(x){return x.getHours()+':'+x.getMinutes()+':'+x.getSeconds()+' '+x.getMilliseconds();},
-					outer: false
+					outer: false,
+					centered: true
 				},
 				padding:{
 					left:20,
 					right:500
 				},
 					//height: 20
-				},
-				y:{
-					max: 40,
-					min: -5
-				},
+			},
+			y:{
+				label:'温度（度）',
+				max: 40,
+				min: -5
+			},
 
+		},
+		grid:{
+			x:{
+				show:true
+			},
+			y:{
+				show:true
 			}
-
-		});
+		}
+	});
 
 
 	function convertArrayBufferToString(buf){
@@ -178,6 +196,9 @@
 			'bitrate':baudRate,
 			'receiveTimeout':1000
 		};
+
+		graphArray = [];
+		timeArray = [];
 
 		chrome.serial.connect(selectedPort,options,onConnectCallback);
 
@@ -233,42 +254,54 @@
 		document.getElementById('w_WBGTout').getElementsByClassName('data')[0].innerText = data.WBGTout;
 		document.getElementById('w_WBGTin').getElementsByClassName('data')[0].innerText = data.WBGTin;
 		
-			
+
 		document.getElementById('w_WBGTout').classList.remove('danger');
 		document.getElementById('w_WBGTout').classList.remove('dangerOrange');
 		document.getElementById('w_WBGTout').classList.remove('dangerYellow');
 		document.getElementById('w_WBGTout').classList.remove('lowvalue');
+		document.getElementById('w_WBGTout').getElementsByClassName('caution')[0].innerText = "平常";
 		if(data.WBGTout > 31){
 			//red
 			document.getElementById('w_WBGTout').classList.add('danger');
+			document.getElementById('w_WBGTout').getElementsByClassName('caution')[0].innerText = "危険";
+
 		}else if(data.WBGTout > 28){
 			//orange
 			document.getElementById('w_WBGTout').classList.add('dangerOrange');
+			document.getElementById('w_WBGTout').getElementsByClassName('caution')[0].innerText = "警戒";
 		}else if(data.WBGTout > 25){
 			//yellow
 			document.getElementById('w_WBGTout').classList.add('dangerYellow');
+			document.getElementById('w_WBGTout').getElementsByClassName('caution')[0].innerText = "注意";
 		}else if(data.WBGTout > 15){
 			//white(normal)
 		}else{
 			document.getElementById('w_WBGTout').classList.add('lowvalue');
+			document.getElementById('w_WBGTout').getElementsByClassName('caution')[0].innerText = "低値";
 		}
 		document.getElementById('w_WBGTin').classList.remove('danger');
 		document.getElementById('w_WBGTin').classList.remove('dangerOrange');
 		document.getElementById('w_WBGTin').classList.remove('dangerYellow');
 		document.getElementById('w_WBGTin').classList.remove('lowvalue');
+		document.getElementById('w_WBGTin').getElementsByClassName('caution')[0].innerText = "平常";
+
 		if(data.WBGTin > 31){
 			//red
 			document.getElementById('w_WBGTin').classList.add('danger');
+			document.getElementById('w_WBGTin').getElementsByClassName('caution')[0].innerText = "危険";
 		}else if(data.WBGTin > 28){
 			//orange
 			document.getElementById('w_WBGTin').classList.add('dangerOrange');
+			document.getElementById('w_WBGTin').getElementsByClassName('caution')[0].innerText = "警戒";
 		}else if(data.WBGTin > 25){
 			//yellow
 			document.getElementById('w_WBGTin').classList.add('dangerYellow');
+			document.getElementById('w_WBGTin').getElementsByClassName('caution')[0].innerText = "注意";
 		}else if(data.WBGTin > 15){
 			//white(normal)
 		}else{
 			document.getElementById('w_WBGTin').classList.add('lowvalue');
+			document.getElementById('w_WBGTin').getElementsByClassName('caution')[0].innerText = "低値";
 		}
 
 
@@ -321,7 +354,7 @@
 
 					
 
-					if(graphArray.length >= 20){
+					if(graphArray.length > 20){
 						chart.flow({
 							columns: [
 							['x',time],

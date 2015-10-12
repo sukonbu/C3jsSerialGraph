@@ -8,6 +8,7 @@
 
 .datawrapper > .label {
 	padding-left: 1em;
+	padding-top: .4em;
 }
 
 .datawrapper > .data {
@@ -16,6 +17,7 @@
 }
 
 .datawrapper > .unit {
+	padding-top: .4em
 }
 
 .danger {
@@ -37,9 +39,13 @@
 }
 
 .dataCategory{
-	padding-top: 20px;
+	padding-top: 6em;
 }
 
 .wbgt{
-	padding-top: 120px;
+	padding-top: 6em;
+}
+
+.row > .caution{
+	font-size: 200%;
 }
