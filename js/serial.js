@@ -12,8 +12,6 @@
 
 	var arrayReceived = [];
 
-
-
 	var graphArray = [];
 
 	var column = [];
@@ -76,6 +74,10 @@
 
 	var chart = c3.generate({
 		bindto: '#chart',
+		size:{
+				width: 950,
+				height: 380
+		},
 		data: {
 			x: 'x',
 			columns:[
@@ -83,6 +85,10 @@
 			['hum1',[]],
 			['hum2',[]],
 			],
+			names:{
+				hum1:'湿度[服内]',
+				hum2:'湿度[外気]'
+			},
 
 			type: 'line'
 		},
@@ -118,6 +124,10 @@
 
 	var tempChart = c3.generate({
 		bindto: '#tempChart',
+		size:{
+				width: 950,
+				height: 380
+		},
 		data: {
 			x: 'x',
 			columns:[
@@ -125,6 +135,10 @@
 			['tempDHT',[]],
 			['IRtemp',[]]
 			],
+			names:{
+				tempDHT:'気温[外気]',
+				IRtemp:'表面体温'
+			},
 
 			type: 'line'
 		},
