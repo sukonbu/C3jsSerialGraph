@@ -186,7 +186,8 @@
 			while (select.childNodes.length > 0) {
 				select.removeChild(select.firstChild)
 			}
-			var defaultOption = document.createElement('option');
+			var defaultOption = do
+			cument.createElement('option');
 				defaultOption.value = '';
 				defaultOption.text = "ポートを選択して下さい";
 				select.appendChild(defaultOption);
@@ -196,10 +197,6 @@
 	function getDeviceList(){
 		chrome.serial.getDevices(function(devices){
 			select.selectedIndex = 0;
-			//var defaultOption = document.createElement('option');
-			//defaultOption.value = '';
-			//defaultOption.text = "ポートを選択してください";
-			//select.appendChild(defaultOption);
 			devices.forEach(function(port){	
 						//select menuに追加
 						var option = document.createElement('option');
