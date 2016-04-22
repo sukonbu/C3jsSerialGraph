@@ -133,11 +133,11 @@
 			columns:[
 			['x',[]],
 			['tempDHT',[]],
-			['IRtemp',[]]
+			['Temp',[]]
 			],
 			names:{
 				tempDHT:'気温[外気]',
-				IRtemp:'表面体温'
+				Temp:'衣服内温度'
 			},
 
 			type: 'line'
@@ -181,13 +181,25 @@
 		return decodeURIComponent(escape(encodedString));
 	}
 
-	function init(){
-		select = document.getElementById('ports');
+	function initDeviceList(selectOption){
+		if (select.hasChildNodes()) {
+			while (select.childNodes.length > 0) {
+				select.removeChild(select.firstChild)
+			}
+			var defaultOption = document.createElement('option');
+				defaultOption.value = '';
+				defaultOption.text = "ポート";
+				select.appendChild(defaultOption);
+		}
+	}
 
-		document.getElementById('open').addEventListener('click',openPort);
-		document.getElementById('close').addEventListener('click',closePort);
-
+	function getDeviceList(){
 		chrome.serial.getDevices(function(devices){
+			select.selectedIndex = 0;
+			var defaultOption = document.createElement('option');
+			defaultOption.value = '';
+			defaultOption.text = "ポートを選択してください";
+			select.appendChild(defaultOption);
 			devices.forEach(function(port){	
 						//select menuに追加
 						var option = document.createElement('option');
@@ -196,7 +208,21 @@
 						select.appendChild(option);
 					});
 		});
+	}
 
+	function init(){
+		select = document.getElementById('ports');
+		document.getElementById('read').addEventListener('click',readPort);
+		document.getElementById('open').addEventListener('click',openPort);
+		document.getElementById('close').addEventListener('click',closePort);
+
+		getDeviceList();
+
+	}
+
+	function readPort(){
+		initDeviceList(select);
+		getDeviceList();
 	}
 
 	var onConnectCallback = function(connectionInfo){
@@ -229,8 +255,11 @@
 
 	function closePort(){
 		var disconnect = chrome.serial.disconnect(connectionId,onDisconnectionCallback);
+		initPortSelect(select);
+		//getDevieList();
 		console.log(stringBuf);
 	}
+
 
 
 	function getTimeHMS(date){
@@ -259,11 +288,11 @@
 		document.getElementById('w_hum1').getElementsByClassName('data')[0].innerText = data.hum1;
 		document.getElementById('w_hum2').getElementsByClassName('data')[0].innerText = data.hum2;
 		document.getElementById('w_temp').getElementsByClassName('data')[0].innerText = data.temp;
-		document.getElementById('w_irtemp').getElementsByClassName('data')[0].innerText = data.irtemp;
-		if (data.irtemp > 35) {
-			document.getElementById('w_irtemp').classList.add('danger');
+		document.getElementById('w_Temp').getElementsByClassName('data')[0].innerText = data.Temp;
+		if (data.Temp > 35) {
+			document.getElementById('w_Temp').classList.add('danger');
 		} else {
-			document.getElementById('w_irtemp').classList.remove('danger');
+			document.getElementById('w_Temp').classList.remove('danger');
 		}
 		document.getElementById('w_WBGTout').getElementsByClassName('data')[0].innerText = data.WBGTout;
 		document.getElementById('w_WBGTin').getElementsByClassName('data')[0].innerText = data.WBGTin;
@@ -341,16 +370,13 @@
 					var columnHum2 = ['hum2'];
 					var columntempDHT = ['tempDHT'];
 					var columnhumDHT = ['humDHT'];
-					var columnIRTemp = ['IRtemp'];
+					var columnTemp = ['Temp'];
 
 					var columns = [];
 					var tempColumns = [];
 					//ここではcolumnsの中身に、先頭に'serial'を置いた配列columnをpushする
 
 					//WBGT値の算出
-					
-					//console.log("そと："+calcWBGT(values[1],values[2]));
-					//console.log("なか："+calcWBGT(values[0],values[3]));
 
 					updateDisplay({
 						time: time,
@@ -358,7 +384,7 @@
 						hum2: values[1],
 						temp: values[2],
 						humdht: values[3],
-						irtemp: values[4],
+						Temp: values[4],
 						WBGTout: calcWBGT(values[1],values[2]),
 						WBGTin: calcWBGT(values[0],values[4])
 					});
@@ -376,7 +402,7 @@
 							columns: [
 							['x',time],
 							['tempDHT',values[2]],
-							['IRtemp',values[4]]
+							['Temp',values[4]]
 							]
 						});
 
@@ -389,7 +415,7 @@
 							columnHum2.push(c[1]);
 							columntempDHT.push(c[2]);
 							columnhumDHT.push(c[3]);
-							columnIRTemp.push(c[4]);
+							columnTemp.push(c[4]);
 						});
 
 						timeArray.forEach(function(c){
@@ -402,10 +428,10 @@
 						columns.push(columnHum2);
 						//columns.push(columntempDHT);
 						//columns.push(columnhumDHT);
-						//columns.push(columnIRTemp);
+						//columns.push(columnTemp);
 						tempColumns.push(timeSerial);
 						tempColumns.push(columntempDHT);
-						tempColumns.push(columnIRTemp);
+						tempColumns.push(columnTemp);
 
 						chart.load({
 							columns: columns   
@@ -432,7 +458,6 @@
 		console.log('onReceiveErrorCallback');
 	};
 	chrome.serial.onReceiveError.addListener(onReceiveErrorCallback);
-
 
 	window.onload = init;
 })();
