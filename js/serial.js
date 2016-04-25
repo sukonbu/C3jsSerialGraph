@@ -186,8 +186,7 @@
 			while (select.childNodes.length > 0) {
 				select.removeChild(select.firstChild)
 			}
-			var defaultOption = do
-			cument.createElement('option');
+			var defaultOption = document.createElement('option');
 				defaultOption.value = '';
 				defaultOption.text = "ポートを選択して下さい";
 				select.appendChild(defaultOption);
